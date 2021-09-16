@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { SafeAreaView,Text, Button, TextInput, StyleSheet} from 'react-native';
+import { SafeAreaView,Text, Button, TextInput, StyleSheet, Platform} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 
@@ -19,22 +19,25 @@ const Formulario = (props) => {
     const [show, setShow] = useState(false);
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     const onChange = (event, selectedDate) => {
-        const currentDate = selectedDate || date;
-        setShow(Platform.OS === 'ios');
-        setDate(currentDate);
-      };
-    
-      const showMode = (currentMode) => {
-        setShow(true);
-        setMode(currentMode);
-      };
-    
-      const showDatepicker = () => {
-        showMode({mode});
-      };
+      const currentDate = selectedDate || date;
+      setShow(Platform.OS === 'ios');
+      setDate(currentDate);
+    };
+      
+        const showMode = (currentMode) => {
+      setShow(true);
+      setMode(currentMode);
+    };
+    const showDatepicker = () => {
+      showMode('date');
+    };
+    const showTimepicker = () => {
+      showMode('time');
+    };
+  
+   const state = {date: new Date()}
 
 
-    state = { date: new Date() }
     return (
         
     <SafeAreaView
@@ -67,9 +70,10 @@ const Formulario = (props) => {
         
         {show && (
         <DateTimePicker
-          testID="datePicker"
+          testID="dateTimePicker"
           value={date}
-          mode={date}
+          mode={mode}
+          is24Hour={true}
           display="default"
           onChange={onChange}
         />
